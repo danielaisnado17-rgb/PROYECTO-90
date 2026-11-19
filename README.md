@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PROJECT 90 — Body Transformation
 
-## Getting Started
+Plataforma personal de transformación física de 90 días: entrenamiento con progresión doble,
+nutrición con pesaje de alimentos, body tracking con fotos privadas, hábitos, natación,
+mapa de 90 días con logros e informes quincenales/final.
 
-First, run the development server:
+**Stack:** Next.js 15 · TypeScript · Tailwind CSS 4 · Recharts · Supabase (Auth, Postgres con RLS, Storage) · Vercel.
+
+## Ejecutar en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sin variables de entorno funciona en **modo local** (datos en el navegador; fotos en IndexedDB).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Conectar Supabase (datos en la nube, multi-dispositivo)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Crea un proyecto en supabase.com.
+2. SQL Editor → pega y ejecuta `supabase/migrations/0001_init.sql`
+   (crea las 19 tablas, la vista `load_history`, RLS en todas y el bucket privado `progress-photos`).
+3. Copia `.env.example` a `.env.local` y rellena URL y anon key.
+4. Reinicia `npm run dev`. Aparecerá el login; al crear tu cuenta, lo que hubiera en el
+   dispositivo se sube automáticamente.
 
-## Learn More
+La app es *local-first*: cada cambio se guarda al instante en el dispositivo y se sincroniza
+con Supabase; si no hay conexión queda en cola y se reintenta.
 
-To learn more about Next.js, take a look at the following resources:
+## Desplegar en Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Sube el repositorio a GitHub e impórtalo en vercel.com.
+2. Añade `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Environment Variables.
+3. Deploy. En el móvil: abre la URL → «Añadir a pantalla de inicio» (necesario en iPhone para notificaciones).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notificaciones
 
-## Deploy on Vercel
+- Al pulsar **«Cerrar mi día»** llega una notificación con un mensaje bonito + pantalla de celebración.
+- Recordatorios opcionales (entreno, registro de comidas, agua, cerrar el día) mientras la app está abierta o instalada.
+- Para avisos con la app totalmente cerrada hace falta Web Push (claves VAPID + función programada);
+  el service worker (`public/sw.js`) ya escucha eventos `push`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Fuentes de datos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Imágenes de ejercicios: [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (Unlicense, dominio público),
+  cada ejercicio con sus propias fotos. No se incluyen videos inventados: la usuaria puede guardar su enlace.
+- Alimentos: USDA FoodData Central (redondeado, marcado como referencia). Platos fuera de casa: estimaciones por composición, marcadas.
+- Calorías: Mifflin-St Jeor × factor de actividad; no usa % de grasa (no medido).
+
+## Estructura
+
+```
+src/lib/        dominio: types, store (persistencia+sync), program (etapas/logros), nutrition,
+                progression (progresión doble), reports, photos, notify, seed/
+src/app/        páginas: / · ruta · entrenamientos(+sesion) · nutricion · body · progreso(+informe) · habitos · configuracion
+supabase/       migración SQL con RLS
+```
+
+> No es una herramienta médica. Ante dolor, lesiones o dudas de alimentación, consulta con profesionales.

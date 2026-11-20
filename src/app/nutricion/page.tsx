@@ -217,7 +217,7 @@ function Planner() {
                 {SLOTS.map((slot) => {
                   const p = plans.find((x) => x.slot === slot);
                   return (
-                    <div key={slot} className={cx("rounded-2xl p-3", p ? (p.done ? "bg-[#e6ede3]" : "bg-sand/60") : "border border-dashed border-sand-deep")}>
+                    <div key={slot} className={cx("rounded-2xl p-3", p ? (p.done ? "bg-good-soft" : "bg-sand/60") : "border border-dashed border-sand-deep")}>
                       <div className="text-[11px] font-bold tracking-wide text-muted uppercase">{SLOT_LABEL[slot]}</div>
                       {p ? (
                         <>
@@ -481,8 +481,8 @@ function Goals() {
             <Field label="Peso actual (kg)"><NumInput value={weight} step={0.1} onChange={setWeight} /></Field>
             <Field label="Actividad"><Select value={activity} onChange={(e) => setActivity(Number(e.target.value))}>{ACTIVITY_LEVELS.map((a) => <option key={a.v} value={a.v}>{a.v} · {a.label}</option>)}</Select></Field>
             <Field label="Estrategia" className="col-span-2"><Select value={strategy} onChange={(e) => setStrategy(e.target.value as Strategy)}>{STRATEGIES.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}</Select></Field>
-            <Field label={`Proteína: ${ppk.toFixed(1)} g/kg`}><input type="range" min={1.6} max={2.2} step={0.1} value={ppk} onChange={(e) => setPpk(Number(e.target.value))} className="w-full accent-[#171413]" /></Field>
-            <Field label={`Grasa: ${fpk.toFixed(1)} g/kg`}><input type="range" min={0.7} max={1.1} step={0.1} value={fpk} onChange={(e) => setFpk(Number(e.target.value))} className="w-full accent-[#171413]" /></Field>
+            <Field label={`Proteína: ${ppk.toFixed(1)} g/kg`}><input type="range" min={1.6} max={2.2} step={0.1} value={ppk} onChange={(e) => setPpk(Number(e.target.value))} className="w-full accent-[#e8559a]" /></Field>
+            <Field label={`Grasa: ${fpk.toFixed(1)} g/kg`}><input type="range" min={0.7} max={1.1} step={0.1} value={fpk} onChange={(e) => setFpk(Number(e.target.value))} className="w-full accent-[#e8559a]" /></Field>
           </div>
           <p className="mt-2 text-xs text-muted">{STRATEGIES.find((s) => s.v === strategy)?.desc}</p>
           <div className="mt-4 grid grid-cols-3 gap-2 rounded-3xl bg-sand/50 p-3 text-center text-sm">

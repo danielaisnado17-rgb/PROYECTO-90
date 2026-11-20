@@ -47,7 +47,7 @@ function Entrenamientos() {
 }
 
 const ORDER = [1, 2, 3, 4, 5, 6, 0];
-const colorCls: Record<Routine["color"], string> = { rose: "bg-rose", sand: "bg-sand-deep/70", stone: "bg-[#cdd5e0]", ink: "bg-ink text-white" };
+const colorCls: Record<Routine["color"], string> = { rose: "bg-rose", sand: "bg-sand-deep/70", stone: "bg-peach", ink: "bg-ink text-white" };
 
 function Week() {
   const { db, profile, upsert } = useStore();
@@ -65,7 +65,7 @@ function Week() {
           const done = plan.type === "workout" ? db.workouts.some((w) => w.date === date && w.finished_at) : plan.type === "swim" ? db.swim_sessions.some((s) => s.date === date) : false;
           const isToday = date === today;
           return (
-            <div key={wd} className={cx("flex min-h-40 flex-col rounded-[1.5rem] p-5", r ? colorCls[r.color] : plan.type === "swim" ? "bg-[#d9e4ea]" : "bg-surface border border-line", isToday && "ring-2 ring-ink ring-offset-2 ring-offset-bg")}>
+            <div key={wd} className={cx("flex min-h-40 flex-col rounded-[1.5rem] p-5", r ? colorCls[r.color] : plan.type === "swim" ? "bg-[#dfe6f7]" : "bg-surface border border-line", isToday && "ring-2 ring-ink ring-offset-2 ring-offset-bg")}>
               <div className="flex items-center justify-between">
                 <Badge tone={isToday ? "ink" : "sand"}>{isToday ? "Hoy" : `${dowLong(wd).slice(0, 3)} ${fmtShort(date)}`}</Badge>
                 {done && <Badge tone="good">✓ Hecho</Badge>}
@@ -188,7 +188,7 @@ function RoutineEditor({ routine, onClose, onSave, onDelete }: { routine: Routin
         </Field>
         <Field label="Enfoque" className="sm:col-span-3"><Input value={r.focus} onChange={(e) => setR({ ...r, focus: e.target.value })} /></Field>
       </div>
-      <div className={cx("mt-4 rounded-2xl px-4 py-2 text-xs", sets > 24 ? "bg-[#f6ead9]" : "bg-sand/60")}>
+      <div className={cx("mt-4 rounded-2xl px-4 py-2 text-xs", sets > 24 ? "bg-peach-soft" : "bg-sand/60")}>
         {r.items.length} ejercicios · {sets} series totales{sets > 24 ? " — puede ser demasiado para 60 min; considera quitar algo." : " — adecuado para ~60 min."}
       </div>
       <div className="mt-4 space-y-3">

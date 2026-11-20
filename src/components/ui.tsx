@@ -8,11 +8,12 @@ export function cx(...c: (string | false | null | undefined)[]) {
   return c.filter(Boolean).join(" ");
 }
 
-export function Card({ children, className, tone = "surface", ...rest }: { children: ReactNode; className?: string; tone?: "surface" | "rose" | "sand" | "ink" | "stone" } & React.HTMLAttributes<HTMLDivElement>) {
+export function Card({ children, className, tone = "surface", ...rest }: { children: ReactNode; className?: string; tone?: "surface" | "rose" | "sand" | "ink" | "stone" | "glow" } & React.HTMLAttributes<HTMLDivElement>) {
   const tones = {
-    surface: "bg-surface border border-line",
-    rose: "bg-rose-soft border border-rose/40",
-    sand: "bg-sand border border-sand-deep/40",
+    surface: "bg-white/80 backdrop-blur-xl border border-white/70 shadow-[0_1px_2px_rgba(17,17,17,.03)]",
+    glow: "glow border border-white/50",
+    rose: "bg-rose border border-rose",
+    sand: "bg-white/60 backdrop-blur-xl border border-white/70",
     stone: "bg-stone border border-stone",
     ink: "bg-ink text-white border border-ink",
   };
@@ -223,7 +224,7 @@ export function Chip({ children, active, onClick, className }: { children: React
 }
 
 export function Badge({ children, tone = "sand" }: { children: ReactNode; tone?: "sand" | "rose" | "ink" | "good" | "warn" }) {
-  const t = { sand: "bg-sand text-ink/70", rose: "bg-rose-soft text-rose-deep", ink: "bg-ink text-white", good: "bg-[#e6ede3] text-good", warn: "bg-[#f6ead9] text-warn" }[tone];
+  const t = { sand: "bg-sand text-ink/70", rose: "bg-rose-soft text-rose-deep", ink: "bg-ink text-white", good: "bg-good-soft text-good", warn: "bg-peach-soft text-warn" }[tone];
   return <span className={cx("inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold", t)}>{children}</span>;
 }
 

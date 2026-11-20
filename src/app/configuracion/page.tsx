@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { Bell, Cloud, CloudOff, Download, LogOut, Plus, RefreshCw, Trash2, Upload, X } from "lucide-react";
-import { useStore, emptyDB } from "@/lib/store";
+import { useStore, emptyDB, setManualLogin } from "@/lib/store";
+import { getSupabase } from "@/lib/supabase";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { notificationsSupported, notify, requestPermission } from "@/lib/notify";
 import { ACTIVITY_LEVELS } from "@/lib/nutrition";
@@ -116,11 +117,11 @@ export default function Configuracion() {
           <div className="flex items-center gap-2 text-sm font-bold">{mode === "cloud" ? <Cloud size={16} /> : <CloudOff size={16} />} Cuenta y datos</div>
           {mode === "cloud" ? (
             <div className="mt-3 space-y-2 text-sm">
-              <p>Sesión: <b>{session?.user.email}</b></p>
+              {session?.user.is_anonymous ? <LinkEmail /> : <p>Cuenta: <b>{session?.user.email}</b></p>}
               <p className={cx(syncError ? "text-rose-deep" : "text-muted")}>{syncError ? `Error: ${syncError}` : pending ? `${pending} cambio(s) pendientes de subir` : "Todo sincronizado con la base de datos."}</p>
               <div className="flex flex-wrap gap-2 pt-1">
                 <Button size="sm" variant="soft" onClick={() => refresh()}><RefreshCw size={13} /> Sincronizar</Button>
-                <Button size="sm" variant="outline" onClick={() => signOut()}><LogOut size={13} /> Cerrar sesión</Button>
+                {!session?.user.is_anonymous && <Button size="sm" variant="outline" onClick={() => { setManualLogin(true); void signOut(); }}><LogOut size={13} /> Cerrar sesión</Button>}
               </div>
             </div>
           ) : (
@@ -152,5 +153,27 @@ function Toggle({ label, on, onChange }: { label: string; on: boolean; onChange:
         <span className={cx("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all", on ? "left-[1.375rem]" : "left-0.5")} />
       </span>
     </button>
+  );
+}
+
+function LinkEmail() {
+  const [email, setEmail] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+  async function link() {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { error } = await sb.auth.updateUser({ email }, { emailRedirectTo: window.location.origin });
+    setMsg(error ? `No se pudo: ${error.message}` : "Te enviamos un correo: toca el enlace para confirmar. Después podrás entrar desde cualquier dispositivo con ese correo (sin contraseña).");
+  }
+  return (
+    <div className="rounded-2xl bg-rose-soft p-4">
+      <p className="font-semibold">Estás usando la app sin correo.</p>
+      <p className="mt-1 text-xs text-ink/70">Tus datos se guardan en la nube, pero para recuperarlos en otro celular (o si borras el navegador), vincula tu correo. No necesitas contraseña.</p>
+      <div className="mt-3 flex gap-2">
+        <Input type="email" placeholder="tu@correo.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Button size="md" disabled={!email.includes("@")} onClick={link}>Vincular</Button>
+      </div>
+      {msg && <p className="mt-2 text-xs">{msg}</p>}
+    </div>
   );
 }

@@ -15,6 +15,20 @@ import { estimateTargets } from "./nutrition";
 
 const LS_DB = "p90:db:v1";
 const LS_QUEUE = "p90:queue:v1";
+const LS_MANUAL = "p90:manual-login";
+export function manualLogin() {
+  try {
+    return localStorage.getItem(LS_MANUAL) === "1";
+  } catch {
+    return false;
+  }
+}
+export function setManualLogin(v: boolean) {
+  try {
+    if (v) localStorage.setItem(LS_MANUAL, "1");
+    else localStorage.removeItem(LS_MANUAL);
+  } catch {}
+}
 
 type Op = { op: "upsert" | "delete"; table: TableName; id: string; row?: unknown };
 
@@ -176,10 +190,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     [flush],
   );
 
+  const pulling = useRef(false);
   const pull = useCallback(async () => {
     const sb = getSupabase();
     const s = sessionRef.current;
-    if (!sb || !s) return;
+    if (!sb || !s || pulling.current) return;
+    pulling.current = true;
     setSyncing(true);
     try {
       await flush();
@@ -205,6 +221,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       setSyncError(e instanceof Error ? e.message : String((e as { message?: string })?.message ?? e));
     } finally {
       setSyncing(false);
+      pulling.current = false;
     }
   }, [commit, enqueue, flush]);
 
@@ -219,16 +236,24 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     sb.auth.getSession().then(async ({ data }) => {
-      sessionRef.current = data.session;
-      setSession(data.session);
-      if (data.session) await pull();
+      let s = data.session;
+      // Sin contraseña: si no hay sesión, se entra automáticamente con una cuenta
+      // anónima (requiere "Anonymous sign-ins" activado en Supabase). Si no está
+      // activado, se muestra la pantalla de acceso por enlace al correo.
+      if (!s && !manualLogin()) {
+        const r = await sb.auth.signInAnonymously();
+        if (!r.error) s = r.data.session;
+      }
+      sessionRef.current = s;
+      setSession(s);
+      if (s) await pull();
       setReady(true);
     });
     const { data: sub } = sb.auth.onAuthStateChange((evt, s) => {
       const prev = sessionRef.current;
       sessionRef.current = s;
       setSession(s);
-      if (evt === "SIGNED_IN" && !prev) void pull();
+      if (evt === "SIGNED_IN" && prev?.user.id !== s?.user.id && s) void pull();
     });
     const online = () => void flush();
     window.addEventListener("online", online);

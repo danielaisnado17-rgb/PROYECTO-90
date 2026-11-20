@@ -178,7 +178,7 @@ function ExerciseBlock({ ex, item, workoutId, date, sets, onInfo, onSave, onDele
         </div>
         <button onClick={onInfo} className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sand" aria-label="Ver técnica"><Info size={16} /></button>
       </div>
-      <div className={cx("mt-3 flex gap-2 rounded-2xl px-3 py-2 text-xs", sug.kind === "increase" ? "bg-[#e6ede3]" : sug.kind === "caution" ? "bg-rose-soft" : "bg-sand/60")}>
+      <div className={cx("mt-3 flex gap-2 rounded-2xl px-3 py-2 text-xs", sug.kind === "increase" ? "bg-good-soft" : sug.kind === "caution" ? "bg-rose-soft" : "bg-sand/60")}>
         {sug.kind === "increase" ? <TrendingUp size={14} className="mt-0.5 shrink-0" /> : sug.kind === "caution" ? <AlertTriangle size={14} className="mt-0.5 shrink-0" /> : <Info size={14} className="mt-0.5 shrink-0" />}
         <span>{sug.message}</span>
       </div>

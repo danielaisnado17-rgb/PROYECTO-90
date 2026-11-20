@@ -105,7 +105,7 @@ export function AddFoodSheet({ open, onClose, date, slot, editLog }: { open: boo
                 <NumInput value={servings} step={0.5} onChange={setServings} className="text-lg font-bold" />
                 <span className="text-sm font-semibold text-muted">porción(es) de {recipe.servings}</span>
               </div>
-              {recipeMissing > 0 && <p className="rounded-2xl bg-[#f6ead9] px-3 py-2 text-xs">Hay {recipeMissing} ingrediente(s) sin gramos: no se cuentan. Complétalos en Recetas.</p>}
+              {recipeMissing > 0 && <p className="rounded-2xl bg-peach-soft px-3 py-2 text-xs">Hay {recipeMissing} ingrediente(s) sin gramos: no se cuentan. Complétalos en Recetas.</p>}
             </>
           ) : null}
           <button onClick={() => setOut(!out)} className={cx("flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold", out ? "bg-ink text-white" : "bg-sand/60")}>

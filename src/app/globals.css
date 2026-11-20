@@ -1,33 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #f5efe7;
-  --color-surface: #fffcf8;
-  --color-sand: #ece2d5;
-  --color-sand-deep: #dccbb6;
-  --color-stone: #e4dfd9;
-  --color-line: #e9e1d6;
-  --color-ink: #171413;
-  --color-ink-soft: #2b2725;
-  --color-muted: #8b827a;
-  --color-rose: #e8b9be;
-  --color-rose-deep: #c9828c;
-  --color-rose-soft: #f7e6e6;
-  --color-sage: #b9c4b0;
-  --color-good: #6f8f6a;
-  --color-warn: #c58b4a;
+  /* Paleta inspirada en apps de wellness: durazno → rosa chicle, blanco, negro */
+  --color-bg: #f6f2f1;
+  --color-surface: #ffffff;
+  --color-sand: #f2eeed;
+  --color-sand-deep: #e2dbd9;
+  --color-stone: #ebe6e4;
+  --color-line: #efe8e6;
+  --color-ink: #111111;
+  --color-ink-soft: #2a2a2a;
+  --color-muted: #8a8486;
+  --color-rose: #f9b1d2;
+  --color-rose-deep: #e8559a;
+  --color-rose-soft: #fde6f0;
+  --color-peach: #ffd2a8;
+  --color-peach-soft: #ffeedf;
+  --color-apricot: #fdb68a;
+  --color-orange: #f28a3c;
+  --color-sage: #b9d3bf;
+  --color-good: #4f8f5f;
+  --color-good-soft: #e3f2e6;
+  --color-warn: #d9742a;
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-serif-display), ui-serif, Georgia, serif;
   --radius-xl2: 1.75rem;
 }
 
 :root { color-scheme: light; }
-html, body { background: var(--color-bg); color: var(--color-ink); }
+html { background: var(--color-bg); color: var(--color-ink); }
+body {
+  color: var(--color-ink);
+  min-height: 100dvh;
+  background:
+    radial-gradient(900px 520px at -5% -8%, rgba(255, 196, 140, .55) 0%, transparent 60%),
+    radial-gradient(800px 560px at 105% 0%, rgba(249, 165, 205, .45) 0%, transparent 58%),
+    radial-gradient(700px 500px at 50% 110%, rgba(255, 214, 190, .35) 0%, transparent 60%),
+    var(--color-bg);
+  background-attachment: fixed;
+}
+.glow { background: linear-gradient(135deg, #ffd6ae 0%, #ffc3c6 45%, #f9b1d2 100%); }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 * { -webkit-tap-highlight-color: transparent; }
 
-.card { background: var(--color-surface); border-radius: 1.5rem; border: 1px solid var(--color-line); }
-.hatch { background-image: repeating-linear-gradient(135deg, rgba(23,20,19,.18) 0 1.5px, transparent 1.5px 6px); }
+.card { background: rgba(255,255,255,.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,.7); box-shadow: 0 1px 2px rgba(17,17,17,.03); }
+.hatch { background-image: repeating-linear-gradient(135deg, rgba(17,17,17,.28) 0 1.5px, transparent 1.5px 6px); }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
 input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }

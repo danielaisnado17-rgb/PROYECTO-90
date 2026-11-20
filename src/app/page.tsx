@@ -61,12 +61,12 @@ export default function Dashboard() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Hoy toca */}
-        <Card tone="rose" className="relative overflow-hidden p-6 lg:col-span-2">
-          <div className="pointer-events-none absolute -top-8 -right-6 h-40 w-40 rounded-full bg-rose/70 blur-[1px]" />
+        <Card tone="glow" className="relative overflow-hidden p-6 lg:col-span-2">
+          <div className="pointer-events-none absolute -top-10 -right-8 h-44 w-44 rounded-full bg-white/35" />
           <div className="floaty pointer-events-none absolute top-10 right-10 h-16 w-16 rounded-[40%] bg-ink/90 shadow-xl" />
-          <div className="pointer-events-none absolute top-24 right-28 h-10 w-10 rounded-full border-[7px] border-sand-deep" />
+          <div className="pointer-events-none absolute top-24 right-28 h-10 w-10 rounded-full border-[7px] border-white/70" />
           <div className="relative max-w-[70%]">
-            <div className="text-xs font-bold tracking-[.2em] text-rose-deep uppercase">Hoy toca</div>
+            <div className="text-xs font-bold tracking-[.2em] text-ink/60 uppercase">Hoy toca</div>
             {st.plan.type === "workout" && routine ? (
               <>
                 <h2 className="mt-2 text-3xl leading-tight font-extrabold tracking-tight md:text-4xl">{routine.name}</h2>
@@ -132,7 +132,7 @@ export default function Dashboard() {
           {data.msgs.map((msg, i) => {
             const Icon = msg.tone === "good" ? TrendingUp : msg.tone === "warn" ? AlertCircle : Info;
             const inner = (
-              <div className={cx("flex h-full items-center gap-3 rounded-2xl px-4 py-3 text-sm", msg.tone === "good" ? "bg-[#e6ede3]" : msg.tone === "warn" ? "bg-[#f6ead9]" : "bg-surface border border-line")}>
+              <div className={cx("flex h-full items-center gap-3 rounded-2xl px-4 py-3 text-sm", msg.tone === "good" ? "bg-good-soft" : msg.tone === "warn" ? "bg-peach-soft" : "bg-surface border border-line")}>
                 <Icon size={18} className="shrink-0" />
                 <span className="flex-1 font-medium">{msg.text}</span>
                 {msg.href && <ArrowUpRight size={16} className="shrink-0 text-muted" />}

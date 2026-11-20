@@ -102,7 +102,7 @@ export function CloseDayButton({ date = todayISO(), className }: { date?: string
 function Celebration({ day, msg, streak, onClose }: { day: number; msg: string; streak: number; onClose: () => void }) {
   const confetti = Array.from({ length: 28 }, (_, i) => i);
   return createPortal(
-    <div className="fixed inset-0 z-[70] grid place-items-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,#f7e6e6,transparent_55%),radial-gradient(circle_at_80%_80%,#ece2d5,transparent_55%)] bg-surface px-6" onClick={onClose}>
+    <div className="fixed inset-0 z-[70] grid place-items-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,#ffd6ae,transparent_55%),radial-gradient(circle_at_80%_80%,#f9b1d2,transparent_55%)] bg-surface px-6" onClick={onClose}>
       {confetti.map((i) => (
         <span
           key={i}
@@ -110,7 +110,7 @@ function Celebration({ day, msg, streak, onClose }: { day: number; msg: string; 
           style={{
             left: `${(i * 37) % 100}%`,
             top: `${(i * 53) % 100}%`,
-            background: i % 3 === 0 ? "#c9828c" : i % 3 === 1 ? "#e8b9be" : "#171413",
+            background: i % 3 === 0 ? "#e8559a" : i % 3 === 1 ? "#f9b1d2" : "#111111",
             opacity: 0.55,
             animation: `floaty ${2.5 + (i % 5) * 0.4}s ease-in-out ${i * 0.07}s infinite`,
           }}

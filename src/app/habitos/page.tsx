@@ -164,7 +164,7 @@ function Swim() {
             </div>
             <div>
               <div className="mb-1.5 text-xs font-semibold tracking-wide text-muted uppercase">Intensidad percibida: {edit.rpe}/10</div>
-              <input type="range" min={1} max={10} value={edit.rpe} onChange={(e) => setEdit({ ...edit, rpe: Number(e.target.value) })} className="w-full accent-[#171413]" />
+              <input type="range" min={1} max={10} value={edit.rpe} onChange={(e) => setEdit({ ...edit, rpe: Number(e.target.value) })} className="w-full accent-[#e8559a]" />
               <div className="flex justify-between text-[11px] text-muted"><span>Muy suave</span><span>Máxima</span></div>
             </div>
             <div>

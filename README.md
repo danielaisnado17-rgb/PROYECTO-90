@@ -20,7 +20,7 @@ Sin variables de entorno funciona en **modo local** (datos en el navegador; foto
 1. Crea un proyecto en supabase.com.
 2. SQL Editor → pega y ejecuta `supabase/migrations/0001_init.sql`
    (crea las 19 tablas, la vista `load_history`, RLS en todas y el bucket privado `progress-photos`).
-3. Copia `.env.example` a `.env.local` y rellena URL y anon key.
+3. Copia `.env.example` a `.env.local` y rellena la URL y la clave publishable (o anon).
 4. Reinicia `npm run dev`. Aparecerá el login; al crear tu cuenta, lo que hubiera en el
    dispositivo se sube automáticamente.
 
@@ -30,7 +30,7 @@ con Supabase; si no hay conexión queda en cola y se reintenta.
 ## Desplegar en Vercel
 
 1. Sube el repositorio a GitHub e impórtalo en vercel.com.
-2. Añade `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Environment Variables.
+2. Añade `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (o `..._ANON_KEY`) en Environment Variables.
 3. Deploy. En el móvil: abre la URL → «Añadir a pantalla de inicio» (necesario en iPhone para notificaciones).
 
 ## Notificaciones

@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { todayISO } from "@/lib/dates";
 import { Button, Field, Input } from "./ui";
+import { OWNER_NAME } from "./Login";
 
 export function Welcome() {
   const { initialize } = useStore();
-  const [name, setName] = useState("");
+  const [name, setName] = useState(OWNER_NAME);
   const [start, setStart] = useState(todayISO());
   return (
     <div className="grid min-h-dvh place-items-center px-5 py-10">
